@@ -242,3 +242,123 @@ export const accountDetails = {
     accountHolderName: "Mohammed Anas R",
   },
 };
+
+// ================= VENDOR DATA =================
+
+export type Vendor = {
+  id: number;
+  name: string;
+  since: string;
+  phone: string;
+};
+
+export const vendorList: Vendor[] = [
+  {
+    id: 1,
+    name: "John Doe 1",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+  {
+    id: 2,
+    name: "John Doe 2",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+  {
+    id: 3,
+    name: "John Doe 3",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+  {
+    id: 4,
+    name: "John Doe 4",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+  {
+    id: 5,
+    name: "John Doe 5",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+  {
+    id: 6,
+    name: "John Doe 6",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+  {
+    id: 7,
+    name: "John Doe 7",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+  {
+    id: 8,
+    name: "John Doe 8",
+    since: "Since 12 Mar, 2024",
+    phone: "+91 9845762545",
+  },
+];
+
+// ================= USER DATA =================
+
+export type User = {
+  id: number;
+  name: string;
+  since: string;
+  phone: string;
+};
+
+export const userList: User[] = [
+  {
+    id: 1,
+    name: "Arun Kumar",
+    since: "Joined on 12 Mar, 2024",
+    phone: "+91 9876543210",
+  },
+  {
+    id: 2,
+    name: "Priya Sharma",
+    since: "Joined on 08 Feb, 2024",
+    phone: "+91 9988776655",
+  },
+  {
+    id: 3,
+    name: "Rahul Verma",
+    since: "Joined on 21 Jan, 2024",
+    phone: "+91 9123456789",
+  },
+  {
+    id: 4,
+    name: "Sneha Iyer",
+    since: "Joined on 05 Apr, 2024",
+    phone: "+91 9090909090",
+  },
+  {
+    id: 5,
+    name: "Vignesh R",
+    since: "Joined on 18 Mar, 2024",
+    phone: "+91 9345678123",
+  },
+  {
+    id: 6,
+    name: "Anjali Singh",
+    since: "Joined on 30 Jan, 2024",
+    phone: "+91 9876501234",
+  },
+  {
+    id: 7,
+    name: "Karthik M",
+    since: "Joined on 14 Feb, 2024",
+    phone: "+91 9001122334",
+  },
+  {
+    id: 8,
+    name: "Meena Lakshmi",
+    since: "Joined on 01 Mar, 2024",
+    phone: "+91 9887766554",
+  },
+];
