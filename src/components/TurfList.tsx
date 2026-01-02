@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Star } from "lucide-react";
+import { Star, Search } from "lucide-react";
 import {
   turfList,
   days,
@@ -11,8 +11,13 @@ import {
 export default function TurfList() {
   const [selectedTurfId, setSelectedTurfId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("Turf Details");
+  const [search, setSearch] = useState("");
 
-  const selectedTurf = turfList.find(
+  const filteredTurfs = turfList.filter((turf) =>
+    turf.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const selectedTurf = filteredTurfs.find(
     (turf) => turf.id === selectedTurfId
   );
 
@@ -23,9 +28,43 @@ export default function TurfList() {
 
       {/* ================= LEFT : TURF LIST ================= */}
       <div className="w-1/4 flex flex-col gap-4 -ml-3">
-        <h2 className="font-bold mb-2">Turf List</h2>
 
-        {turfList.map((turf) => {
+        {/* HEADER ROW */}
+        <div className="flex items-center justify-between -mt-4">
+          <h2 className="font-bold text-lg">Turf List</h2>
+
+          {/* SEARCH BAR */}
+          <div className="relative w-[220px]">
+            <Search
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+            <input
+              type="text"
+              placeholder="Search for a Turf"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="
+                w-full
+                h-9
+                pl-9
+                pr-3
+                rounded-md
+                bg-[#f2f4f7]
+                border
+                border-gray-300
+                text-sm
+                text-gray-700
+                placeholder-gray-500
+                outline-none
+                focus:border-gray-400
+              "
+            />
+          </div>
+        </div>
+
+        {/* TURF LIST (FILTERED) */}
+        {filteredTurfs.map((turf) => {
           const isActive = turf.id === selectedTurfId;
 
           return (
@@ -42,7 +81,9 @@ export default function TurfList() {
 
               <div className="flex flex-col text-left text-sm">
                 <span className="font-semibold">{turf.name}</span>
-                <span className="text-xs text-gray-500">{turf.since}</span>
+                <span className="text-xs text-gray-500">
+                  {turf.since}
+                </span>
               </div>
 
               <span className="ml-auto text-xs text-gray-400">
@@ -52,7 +93,6 @@ export default function TurfList() {
           );
         })}
       </div>
-
       {/* ================= RIGHT : DETAILS ================= */}
       <div className="flex-1 bg-white rounded-2xl p-8">
         {selectedTurf ? (

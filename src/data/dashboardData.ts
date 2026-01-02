@@ -1,3 +1,9 @@
+// ================= LOGIN (SUPER ADMIN) =================
+export const loginCredentials = {
+  username: "superadmin",
+  password: "123456",
+};
+
 // ================= EARNING CHART DATA =================
 export const earningReportWeekly = [
   { label: "Monday", value: 30 },
