@@ -21,6 +21,7 @@ const Header: React.FC = () => {
 
   // ✅ ONLY ADDITION (search state)
   const [searchValue, setSearchValue] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const menuItems = [
     { icon: LayoutGrid, label: "Dashboard", path: "/dashboard" },
@@ -39,6 +40,12 @@ const Header: React.FC = () => {
     } else {
       navigate("/dashboard");
     }
+  };
+
+  // ✅ Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/");
   };
 
   return (
@@ -71,11 +78,31 @@ const Header: React.FC = () => {
           <FileText className="h-5 w-5 text-gray-600 cursor-pointer" />
           <Bell className="h-5 w-5 text-gray-600 cursor-pointer" />
 
-          <div className="flex items-center gap-1 cursor-pointer select-none">
-            <div className="h-9 w-9 rounded-full bg-gray-200 flex items-center justify-center">
-              <User className="h-5 w-5 text-gray-500" />
+          <div className="relative">
+            <div 
+              className="flex items-center gap-1 cursor-pointer select-none"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              <div className="h-9 w-9 rounded-full bg-gray-200 flex items-center justify-center">
+                <User className="h-5 w-5 text-gray-500" />
+              </div>
+              <ChevronDown className="h-4 w-4 text-gray-500" />
             </div>
-            <ChevronDown className="h-4 w-4 text-gray-500" />
+
+            {/* Dropdown Menu */}
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setShowDropdown(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </header>
