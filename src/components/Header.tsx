@@ -19,7 +19,6 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ ONLY ADDITION (search state)
   const [searchValue, setSearchValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -29,11 +28,10 @@ const Header: React.FC = () => {
     { icon: User, label: "Vendor List", path: "/vendorlist" },
     { icon: Users, label: "User List", path: "/userlist" },
     { icon: CreditCard, label: "Payments" },
-    { icon: BarChart2, label: "Report" },
+    { icon: BarChart2, label: "Report", path: "/report" },
     { icon: Settings, label: "Settings" },
   ];
 
-  // ✅ Dashboard click handler
   const handleDashboardClick = () => {
     if (location.pathname === "/dashboard") {
       window.location.reload();
@@ -42,7 +40,6 @@ const Header: React.FC = () => {
     }
   };
 
-  // ✅ Logout handler
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     navigate("/");
@@ -50,7 +47,6 @@ const Header: React.FC = () => {
 
   return (
     <div className="h-screen bg-gray-100 overflow-hidden">
-
       {/* ================= HEADER ================= */}
       <header className="fixed top-0 left-0 right-0 h-[64px] bg-white px-6 flex items-center justify-between z-30">
         <div className="flex items-center gap-3">
@@ -69,8 +65,8 @@ const Header: React.FC = () => {
             <input
               type="text"
               placeholder="Search..."
-              value={searchValue}                 // ✅ added
-              onChange={(e) => setSearchValue(e.target.value)} // ✅ added
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
               className="pl-9 pr-12 py-2 border border-gray-200 rounded-lg text-sm w-72 bg-[#F9FAFB]"
             />
           </div>
@@ -79,7 +75,7 @@ const Header: React.FC = () => {
           <Bell className="h-5 w-5 text-gray-600 cursor-pointer" />
 
           <div className="relative">
-            <div 
+            <div
               className="flex items-center gap-1 cursor-pointer select-none"
               onClick={() => setShowDropdown(!showDropdown)}
             >
@@ -89,7 +85,6 @@ const Header: React.FC = () => {
               <ChevronDown className="h-4 w-4 text-gray-500" />
             </div>
 
-            {/* Dropdown Menu */}
             {showDropdown && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                 <button
@@ -97,7 +92,7 @@ const Header: React.FC = () => {
                     handleLogout();
                     setShowDropdown(false);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition"
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Logout
                 </button>
@@ -109,7 +104,6 @@ const Header: React.FC = () => {
 
       {/* ================= BODY ================= */}
       <div className="flex pt-[64px] h-full">
-
         {/* ================= SIDEBAR ================= */}
         <aside className="fixed top-[64px] left-0 w-20 h-[calc(100vh-64px)] bg-white border-r border-gray-200 py-6 flex flex-col items-center z-20">
           <nav className="flex flex-col gap-6">
@@ -119,7 +113,11 @@ const Header: React.FC = () => {
                   <button
                     key={label}
                     onClick={handleDashboardClick}
-                    className="flex flex-col items-center gap-1 text-[11px] font-medium cursor-pointer text-gray-900"
+                    className={`flex flex-col items-center gap-1 text-[11px] font-medium transition ${
+                      location.pathname === "/dashboard"
+                        ? "text-gray-900"
+                        : "text-gray-400 hover:text-gray-700"
+                    }`}
                   >
                     <Icon className="h-5 w-5" />
                     {label}
@@ -131,7 +129,13 @@ const Header: React.FC = () => {
                 <NavLink
                   key={label}
                   to={path}
-                  className="flex flex-col items-center gap-1 text-[11px] font-medium cursor-pointer text-gray-900"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center gap-1 text-[11px] font-medium transition ${
+                      isActive
+                        ? "text-gray-900"
+                        : "text-gray-400 hover:text-gray-700"
+                    }`
+                  }
                 >
                   <Icon className="h-5 w-5" />
                   {label}
@@ -139,7 +143,7 @@ const Header: React.FC = () => {
               ) : (
                 <div
                   key={label}
-                  className="flex flex-col items-center gap-1 text-[11px] font-medium cursor-pointer text-gray-400 hover:text-gray-700"
+                  className="flex flex-col items-center gap-1 text-[11px] font-medium text-gray-300 cursor-not-allowed"
                 >
                   <Icon className="h-5 w-5" />
                   {label}

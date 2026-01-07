@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
-import { userList } from "../data/dashboardData";
+import {
+  Search,
+  Star,
+  CheckCircle,
+  AlertCircle,
+  DollarSign,
+  Users as UsersIcon,
+} from "lucide-react";
+import { userList, userProfileData } from "../data/dashboardData";
 
 export default function UserList() {
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(1);
   const [search, setSearch] = useState("");
 
   const filteredUsers = userList.filter((user) =>
@@ -14,16 +21,17 @@ export default function UserList() {
     (user) => user.id === selectedUserId
   );
 
+  const selectedProfile = userProfileData.find(
+    (user) => user.id === selectedUserId
+  );
+
   return (
     <div className="flex gap-8 bg-gray-100 p-4 min-h-[600px] rounded-lg">
       {/* ================= LEFT : USER LIST ================= */}
       <div className="w-1/4 flex flex-col gap-4 -ml-3">
-
-        {/* HEADER ROW */}
         <div className="flex items-center justify-between -mt-4">
           <h2 className="font-bold text-lg">User List</h2>
 
-          {/* SEARCH BAR */}
           <div className="relative w-[220px]">
             <Search
               size={16}
@@ -34,26 +42,11 @@ export default function UserList() {
               placeholder="Search for a User"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="
-                w-full
-                h-9
-                pl-9
-                pr-3
-                rounded-md
-                bg-[#f2f4f7]
-                border
-                border-gray-300
-                text-sm
-                text-gray-700
-                placeholder-gray-500
-                outline-none
-                focus:border-gray-400
-              "
+              className="w-full h-9 pl-9 pr-3 rounded-md bg-[#f2f4f7] border border-gray-300 text-sm"
             />
           </div>
         </div>
 
-        {/* USER LIST (FILTERED) */}
         {filteredUsers.map((user) => {
           const isActive = user.id === selectedUserId;
 
@@ -67,10 +60,8 @@ export default function UserList() {
                   : "border-transparent bg-white hover:bg-gray-50"
               }`}
             >
-              {/* Avatar */}
               <div className="w-10 h-10 rounded-full bg-gray-200" />
 
-              {/* User Info */}
               <div className="flex flex-col text-left text-sm">
                 <span className="font-semibold">{user.name}</span>
                 <span className="text-xs text-gray-500">
@@ -78,7 +69,6 @@ export default function UserList() {
                 </span>
               </div>
 
-              {/* Phone */}
               <span className="ml-auto text-xs text-gray-400">
                 {user.phone}
               </span>
@@ -87,23 +77,125 @@ export default function UserList() {
         })}
       </div>
 
-      {/* ================= RIGHT ================= */}
-      <div className="flex-1 bg-white rounded-lg p-6 shadow">
-        {selectedUserId === null ? (
+      {/* ================= RIGHT : USER DETAILS ================= */}
+      <div className="flex-1 bg-white rounded-lg p-8 shadow">
+        {!selectedUser || !selectedProfile ? (
           <div className="h-full flex items-center justify-center text-gray-400 text-lg">
             Select a user to see details
           </div>
         ) : (
           <>
-            <h3 className="text-xl font-semibold mb-2">
-              {selectedUser?.name}
-            </h3>
-            <p className="text-gray-600 mb-1">
-              {selectedUser?.since}
-            </p>
-            <p className="text-gray-600">
-              {selectedUser?.phone}
-            </p>
+            {/* ===== TOP PROFILE + STATS ===== */}
+            <div className="flex justify-between items-start">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-gray-200" />
+                <div>
+                  <h2 className="text-2xl font-semibold">
+                    {selectedUser.name}
+                  </h2>
+                  <p className="text-gray-500">
+                    {selectedUser.phone}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-6">
+                {/* Revenue Card */}
+                <div className="bg-[#F2F4F7] rounded-2xl p-6 w-[212px] h-[124px]">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mb-3">
+                    <DollarSign className="w-5 h-5 text-gray-700" />
+                  </div>
+                  <p className="text-xl font-bold">
+                    ₹{selectedProfile.revenue.toLocaleString()}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Revenue by {selectedUser.name.split(" ")[0]}
+                  </p>
+                </div>
+
+                {/* Active Users Card */}
+                <div className="bg-[#F2F4F7] rounded-2xl p-6 w-[212px] h-[124px]">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mb-3">
+                    <UsersIcon className="w-5 h-5 text-gray-700" />
+                  </div>
+                  <p className="text-xl font-bold">
+                    {selectedProfile.activeUsers}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Active User
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ===== DIVIDER ===== */}
+            <div className="flex items-center gap-4 my-10">
+              <div className="flex-1 border-t border-dashed" />
+              <p className="text-gray-500 font-medium">
+                {selectedUser.name.split(" ")[0]}'s Bookings
+              </p>
+              <div className="flex-1 border-t border-dashed" />
+            </div>
+
+            {/* ===== BOOKINGS LIST ===== */}
+            <div className="flex flex-col gap-10">
+              {selectedProfile.bookings.map((booking) => (
+                <div
+                  key={booking.id}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex gap-5 items-center">
+                    <div className="w-16 h-16 rounded-full bg-gray-100" />
+
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-lg font-semibold">
+                          {booking.turfName}
+                        </h4>
+                        {booking.status === "verified" ? (
+                          <CheckCircle className="w-5 h-5 text-green-500" />
+                        ) : (
+                          <AlertCircle className="w-5 h-5 text-orange-400" />
+                        )}
+                      </div>
+
+                      <p className="text-sm text-gray-500">
+                        {booking.since}
+                      </p>
+
+                      <div className="flex gap-2 mt-2">
+                        {booking.sports.map((sport) => (
+                          <span
+                            key={sport}
+                            className="px-3 py-1 text-xs rounded-full border bg-white"
+                          >
+                            {sport}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="text-sm text-gray-500 mb-2">
+                      {booking.location}
+                    </p>
+                    <div className="flex gap-1 justify-end">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <Star
+                          key={i}
+                          className={`w-6 h-6 ${
+                            i <= booking.rating
+                              ? "text-yellow-400 fill-yellow-400"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </>
         )}
       </div>

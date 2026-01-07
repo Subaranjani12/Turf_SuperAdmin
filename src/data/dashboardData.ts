@@ -255,49 +255,49 @@ export type Vendor = {
 export const vendorList: Vendor[] = [
   {
     id: 1,
-    name: "John Doe 1",
+    name: "Vendor 1",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
   {
     id: 2,
-    name: "John Doe 2",
+    name: "Vendor 2",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
   {
     id: 3,
-    name: "John Doe 3",
+    name: "Vendor 3",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
   {
     id: 4,
-    name: "John Doe 4",
+    name: "Vendor 4",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
   {
     id: 5,
-    name: "John Doe 5",
+    name: "Vendor 5",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
   {
     id: 6,
-    name: "John Doe 6",
+    name: "Vendor 6",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
   {
     id: 7,
-    name: "John Doe 7",
+    name: "Vendor 7",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
   {
     id: 8,
-    name: "John Doe 8",
+    name: "Vendor 8",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
   },
@@ -315,50 +315,217 @@ export type User = {
 export const userList: User[] = [
   {
     id: 1,
-    name: "Arun Kumar",
+    name: "User 1",
     since: "Joined on 12 Mar, 2024",
     phone: "+91 9876543210",
   },
   {
     id: 2,
-    name: "Priya Sharma",
+    name: "User 2",
     since: "Joined on 08 Feb, 2024",
     phone: "+91 9988776655",
   },
   {
     id: 3,
-    name: "Rahul Verma",
+    name: "User 3",
     since: "Joined on 21 Jan, 2024",
     phone: "+91 9123456789",
   },
   {
     id: 4,
-    name: "Sneha Iyer",
+    name: "User 4",
     since: "Joined on 05 Apr, 2024",
     phone: "+91 9090909090",
   },
   {
     id: 5,
-    name: "Vignesh R",
+    name: "User 5",
     since: "Joined on 18 Mar, 2024",
     phone: "+91 9345678123",
   },
   {
     id: 6,
-    name: "Anjali Singh",
+    name: "User 6",
     since: "Joined on 30 Jan, 2024",
     phone: "+91 9876501234",
   },
   {
     id: 7,
-    name: "Karthik M",
+    name: "User 7",
     since: "Joined on 14 Feb, 2024",
     phone: "+91 9001122334",
   },
   {
     id: 8,
-    name: "Meena Lakshmi",
+    name: "User 8",
     since: "Joined on 01 Mar, 2024",
     phone: "+91 9887766554",
+  },
+];
+
+export const userProfileData = [
+  {
+    id: 1,
+    name: "John Doe",
+    phone: "+91 9876543211",
+    revenue: 145000,
+    activeUsers: 374,
+    bookings: [
+      {
+        id: 1,
+        turfName: "Turf 1",
+        since: "Since 12 Mar, 2024",
+        sports: ["Football"],
+        location: "Erode, Thindal",
+        rating: 4,
+        status: "verified",
+      },
+      {
+        id: 2,
+        turfName: "Turf 1",
+        since: "Since 12 Mar, 2024",
+        sports: ["Football", "Cricket", "Basketball"],
+        location: "Erode, Thindal",
+        rating: 4,
+        status: "verified",
+      },
+      {
+        id: 3,
+        turfName: "Turf 1",
+        since: "Since 12 Mar, 2024",
+        sports: ["Football", "Cricket", "Basketball"],
+        location: "Erode, Thindal",
+        rating: 0,
+        status: "pending",
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "Arun Kumar",
+    phone: "+91 9123456789",
+    revenue: 98000,
+    activeUsers: 221,
+    bookings: [
+      {
+        id: 1,
+        turfName: "Green Turf",
+        since: "Since 01 Jan, 2024",
+        sports: ["Cricket"],
+        location: "Salem",
+        rating: 5,
+        status: "verified",
+      },
+    ],
+  },
+];
+
+/* ================= REPORT PAGES ================= */
+
+import {
+  IndianRupee,
+  ClipboardList,
+  Users,
+  UserCircle,
+} from "lucide-react";
+
+/* ================= REPORT TABS ================= */
+
+export const reportTabs = [
+  { key: "payment", label: "Payment Report", icon: IndianRupee },
+  { key: "booking", label: "Booking Report", icon: ClipboardList },
+  { key: "vendor", label: "Vendor Report", icon: Users },
+  { key: "user", label: "User Report", icon: UserCircle },
+];
+
+/* ================= BAR CHART DATA ================= */
+
+export const reportChartData: Record<
+  string,
+  { label: string; value: number }[]
+> = {
+  booking: [
+    { label: "Feb", value: 40 },
+    { label: "Mar", value: 80 },
+    { label: "Apr", value: 60 },
+    { label: "May", value: 100 },
+    { label: "Jun", value: 235 },
+    { label: "Jul", value: 65 },
+    { label: "Aug", value: 110 },
+    { label: "Sep", value: 75 },
+    { label: "Oct", value: 55 },
+    { label: "Nov", value: 80 },
+    { label: "Dec", value: 95 },
+    { label: "Jan", value: 120 },
+  ],
+
+  payment: [
+    { label: "Feb", value: 50 },
+    { label: "Mar", value: 90 },
+    { label: "Apr", value: 70 },
+    { label: "May", value: 120 },
+    { label: "Jun", value: 235 },
+    { label: "Jul", value: 80 },
+    { label: "Aug", value: 140 },
+    { label: "Sep", value: 100 },
+    { label: "Oct", value: 90 },
+    { label: "Nov", value: 120 },
+    { label: "Dec", value: 150 },
+    { label: "Jan", value: 170 },
+  ],
+
+  vendor: [
+    { label: "Feb", value: 20 },
+    { label: "Mar", value: 35 },
+    { label: "Apr", value: 30 },
+    { label: "May", value: 60 },
+    { label: "Jun", value: 120 },
+    { label: "Jul", value: 55 },
+    { label: "Aug", value: 80 },
+    { label: "Sep", value: 65 },
+    { label: "Oct", value: 45 },
+    { label: "Nov", value: 70 },
+    { label: "Dec", value: 85 },
+    { label: "Jan", value: 95 },
+  ],
+
+  user: [
+    { label: "Feb", value: 100 },
+    { label: "Mar", value: 120 },
+    { label: "Apr", value: 110 },
+    { label: "May", value: 140 },
+    { label: "Jun", value: 235 },
+    { label: "Jul", value: 150 },
+    { label: "Aug", value: 180 },
+    { label: "Sep", value: 160 },
+    { label: "Oct", value: 140 },
+    { label: "Nov", value: 170 },
+    { label: "Dec", value: 190 },
+    { label: "Jan", value: 210 },
+  ],
+};
+
+/* ================= TOP TURFS ================= */
+
+export const topTurfs = [
+  {
+    name: "Turf 1",
+    since: "Since 12 Mar, 2024",
+    location: "Erode, Thindal",
+  },
+  {
+    name: "Turf 1",
+    since: "Since 12 Mar, 2024",
+    location: "Erode, Thindal",
+  },
+  {
+    name: "Turf 1",
+    since: "Since 12 Mar, 2024",
+    location: "Erode, Thindal",
+  },
+  {
+    name: "Turf 1",
+    since: "Since 12 Mar, 2024",
+    location: "Erode, Thindal",
   },
 ];

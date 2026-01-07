@@ -5,6 +5,7 @@ import Dashboard from "./components/Dashboard";
 import TurfList from "./components/TurfList";
 import VendorList from "./components/VendorList";
 import UserList from "./components/UserList";
+import Report from "./components/Report"; 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 export default function App() {
@@ -16,17 +17,15 @@ export default function App() {
       {/* PROTECTED ROUTES */}
       <Route element={<ProtectedRoute />}>
         <Route element={<Header />}>
-          
-          {/* Default after login */}
-          <Route index element={<Navigate to="/dashboard" replace />} />
-
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/turflist" element={<TurfList />} />
           <Route path="/vendorlist" element={<VendorList />} />
           <Route path="/userlist" element={<UserList />} />
-
+          /*<Route path="/report" element={<Report />} /> */
         </Route>
       </Route>
+
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
 }
