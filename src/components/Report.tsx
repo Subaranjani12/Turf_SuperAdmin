@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   reportTabs,
   reportChartData,
@@ -9,12 +10,24 @@ import { IndianRupee, ClipboardList, Users } from "lucide-react";
 type TimeRange = "weekly" | "monthly" | "yearly";
 
 export default function Report() {
-  const [activeTab, setActiveTab] = useState<keyof typeof reportChartData>("booking");
+  const location = useLocation();
+
+  const [activeTab, setActiveTab] =
+    useState<keyof typeof reportChartData>("booking");
+
   const [timeRange, setTimeRange] = useState<TimeRange>("monthly");
   const [animateBars, setAnimateBars] = useState(false);
 
+  /* ================= OPEN TAB FROM DASHBOARD ================= */
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location.state]);
+
   const chartData = reportChartData[activeTab][timeRange];
 
+  /* ================= BAR ANIMATION ================= */
   useEffect(() => {
     setAnimateBars(false);
     const t = setTimeout(() => setAnimateBars(true), 100);
@@ -58,7 +71,7 @@ export default function Report() {
           className="bg-white p-6 overflow-y-auto"
           style={{ width: "970px", height: "855px", borderRadius: "16px" }}
         >
-          {/* ================= TOP CARDS ================= */}
+          {/* ================= TOP STAT CARDS ================= */}
           <div className="grid grid-cols-3 gap-6 mb-8">
             <StatCard
               value="₹1,45,000"
@@ -116,7 +129,10 @@ export default function Report() {
                   const height = (item.value / maxValue) * 235;
 
                   return (
-                    <div key={index} className="flex flex-col items-center flex-1">
+                    <div
+                      key={index}
+                      className="flex flex-col items-center flex-1"
+                    >
                       <div className="w-[48px] h-[235px] bg-gray-200 rounded-t-lg flex items-end overflow-hidden">
                         <div
                           className="bg-black w-full rounded-t-lg transition-all duration-700 ease-out"
@@ -151,7 +167,7 @@ export default function Report() {
                   <p className="font-semibold">{turf.name}</p>
                   <p className="text-xs text-gray-400">{turf.since}</p>
                 </div>
-                <span className="ml-auto text-xs text-gray- 400">
+                <span className="ml-auto text-xs text-gray-400">
                   {turf.location}
                 </span>
               </div>
@@ -164,7 +180,6 @@ export default function Report() {
 }
 
 /* ================= STAT CARD ================= */
-
 function StatCard({
   value,
   label,

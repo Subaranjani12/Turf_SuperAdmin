@@ -32,12 +32,20 @@ const Header: React.FC = () => {
     { icon: Settings, label: "Settings" },
   ];
 
+  /* ================= HANDLERS ================= */
+
   const handleDashboardClick = () => {
     if (location.pathname === "/dashboard") {
       window.location.reload();
     } else {
       navigate("/dashboard");
     }
+  };
+
+  const handleReportClick = () => {
+    navigate("/report", {
+      state: { activeTab: "payment" }, // 👈 OPEN PAYMENT TAB
+    });
   };
 
   const handleLogout = () => {
@@ -115,6 +123,23 @@ const Header: React.FC = () => {
                     onClick={handleDashboardClick}
                     className={`flex flex-col items-center gap-1 text-[11px] font-medium transition ${
                       location.pathname === "/dashboard"
+                        ? "text-gray-900"
+                        : "text-gray-400 hover:text-gray-700"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {label}
+                  </button>
+                );
+              }
+
+              if (label === "Report") {
+                return (
+                  <button
+                    key={label}
+                    onClick={handleReportClick}
+                    className={`flex flex-col items-center gap-1 text-[11px] font-medium transition ${
+                      location.pathname === "/report"
                         ? "text-gray-900"
                         : "text-gray-400 hover:text-gray-700"
                     }`}

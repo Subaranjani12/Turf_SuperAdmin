@@ -243,7 +243,11 @@ function StatCard({
 
   return (
     <div
-      onClick={() => navigate("/report")} 
+      onClick={() =>
+        navigate("/report", {
+          state: { activeTab: "payment" }, 
+        })
+      }
       className="bg-white flex flex-col justify-between shadow-sm relative cursor-pointer"
       style={{
         width: 260,
