@@ -5,7 +5,8 @@ import Dashboard from "./components/Dashboard";
 import TurfList from "./components/TurfList";
 import VendorList from "./components/VendorList";
 import UserList from "./components/UserList";
-import Report from "./components/Report"; 
+import Report from "./components/Report";
+import Payment from "./components/Payment"; 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 export default function App() {
@@ -21,10 +22,12 @@ export default function App() {
           <Route path="/turflist" element={<TurfList />} />
           <Route path="/vendorlist" element={<VendorList />} />
           <Route path="/userlist" element={<UserList />} />
-          /*<Route path="/report" element={<Report />} /> */
+          <Route path="/report" element={<Report />} />
+          <Route path="/payment" element={<Payment />} />
         </Route>
       </Route>
 
+      {/* FALLBACK */}
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

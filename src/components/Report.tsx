@@ -4,63 +4,77 @@ import {
   reportChartData,
   topTurfs,
 } from "../data/dashboardData";
+import { IndianRupee, ClipboardList, Users } from "lucide-react";
+
+type TimeRange = "weekly" | "monthly" | "yearly";
 
 export default function Report() {
-  const [activeTab, setActiveTab] = useState("booking");
+  const [activeTab, setActiveTab] = useState<keyof typeof reportChartData>("booking");
+  const [timeRange, setTimeRange] = useState<TimeRange>("monthly");
   const [animateBars, setAnimateBars] = useState(false);
 
-  const chartData = reportChartData[activeTab];
+  const chartData = reportChartData[activeTab][timeRange];
 
   useEffect(() => {
     setAnimateBars(false);
     const t = setTimeout(() => setAnimateBars(true), 100);
     return () => clearTimeout(t);
-  }, [activeTab]);
+  }, [activeTab, timeRange]);
 
   return (
-    <div className="bg-gray-100 p-1 min-h-screen rounded-xl ">
+    <div className="bg-gray-100 p-1 min-h-screen rounded-xl -mt-3">
       <h1 className="font-semibold text-lg mb-4">Report Page</h1>
 
-      <div className="flex gap-6">
+      <div className="flex gap-8">
         {/* ================= LEFT PANEL ================= */}
         <div
-        className="bg-white p-4"
-        style={{
-            width: "408px",
-            height: "855px",
-            borderRadius: "16px",
-        }}
+          className="bg-white p-4"
+          style={{ width: "370px", height: "855px", borderRadius: "16px" }}
         >
-        {reportTabs.map((tab) => {
+          {reportTabs.map((tab) => {
             const Icon = tab.icon;
             const active = tab.key === activeTab;
 
             return (
-            <button
+              <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
+                onClick={() => setActiveTab(tab.key as any)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm mb-1
                 ${
-                    active
+                  active
                     ? "bg-gray-100 font-semibold"
                     : "text-gray-400 hover:bg-gray-50"
                 }`}
-            >
+              >
                 <Icon size={18} />
                 {tab.label}
-            </button>
+              </button>
             );
-        })}
+          })}
         </div>
 
-
         {/* ================= RIGHT PANEL ================= */}
-        <div className="flex-1 bg-white rounded-xl p-6">
-          {/* TOP CARDS */}
+        <div
+          className="bg-white p-6 overflow-y-auto"
+          style={{ width: "970px", height: "855px", borderRadius: "16px" }}
+        >
+          {/* ================= TOP CARDS ================= */}
           <div className="grid grid-cols-3 gap-6 mb-8">
-            <StatCard value="₹1,45,000" label="Month/Oct" />
-            <StatCard value="50" label="Bookings" />
-            <StatCard value="1,045" label="Active Admins" />
+            <StatCard
+              value="₹1,45,000"
+              label="Month / Oct"
+              icon={<IndianRupee size={22} />}
+            />
+            <StatCard
+              value="50"
+              label="Bookings"
+              icon={<ClipboardList size={22} />}
+            />
+            <StatCard
+              value="1,045"
+              label="Active Admins"
+              icon={<Users size={22} />}
+            />
           </div>
 
           {/* ================= BAR CHART ================= */}
@@ -70,9 +84,17 @@ export default function Report() {
                 {activeTab} Chart
               </h3>
 
-              <button className="border rounded-md px-3 py-1 text-sm">
-                Yearly
-              </button>
+              <select
+                value={timeRange}
+                onChange={(e) =>
+                  setTimeRange(e.target.value as TimeRange)
+                }
+                className="border rounded-md px-3 py-1 text-sm outline-none"
+              >
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
             </div>
 
             <div className="relative flex h-[260px]">
@@ -90,21 +112,16 @@ export default function Report() {
                     ...chartData.map((d) => d.value),
                     235
                   );
-                  const height =
-                    (item.value / maxValue) * 235;
+
+                  const height = (item.value / maxValue) * 235;
 
                   return (
-                    <div
-                      key={index}
-                      className="flex flex-col items-center flex-1"
-                    >
-                      <div className="w-[40px] h-[235px] bg-gray-200 rounded-t-lg flex items-end overflow-hidden">
+                    <div key={index} className="flex flex-col items-center flex-1">
+                      <div className="w-[48px] h-[235px] bg-gray-200 rounded-t-lg flex items-end overflow-hidden">
                         <div
                           className="bg-black w-full rounded-t-lg transition-all duration-700 ease-out"
                           style={{
-                            height: animateBars
-                              ? `${height}px`
-                              : "0px",
+                            height: animateBars ? `${height}px` : "0px",
                           }}
                         />
                       </div>
@@ -132,11 +149,9 @@ export default function Report() {
                 <div className="w-10 h-10 bg-gray-100 rounded-full" />
                 <div>
                   <p className="font-semibold">{turf.name}</p>
-                  <p className="text-xs text-gray-400">
-                    {turf.since}
-                  </p>
+                  <p className="text-xs text-gray-400">{turf.since}</p>
                 </div>
-                <span className="ml-auto text-xs text-gray-400">
+                <span className="ml-auto text-xs text-gray- 400">
                   {turf.location}
                 </span>
               </div>
@@ -153,13 +168,18 @@ export default function Report() {
 function StatCard({
   value,
   label,
+  icon,
 }: {
   value: string;
   label: string;
+  icon: React.ReactNode;
 }) {
   return (
-    <div className="bg-white rounded-xl p-5 shadow-sm">
-      <h3 className="text-xl font-semibold">{value}</h3>
+    <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col gap-3">
+      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+        {icon}
+      </div>
+      <h3 className="text-2xl font-bold">{value}</h3>
       <p className="text-sm text-gray-400">{label}</p>
     </div>
   );

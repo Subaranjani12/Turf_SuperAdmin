@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   IndianRupee,
   Clock,
@@ -25,12 +26,12 @@ export default function Dashboard() {
   if (reportType === "Weekly") earningReportData = earningReportWeekly;
   if (reportType === "Yearly") earningReportData = earningReportYearly;
 
-  /* ================= PAYMENT STATUS → ANIMATE ONLY ON PAGE LOAD ================= */
+  /* ================= PAYMENT STATUS ================= */
   React.useEffect(() => {
     setAnimatePayment(true);
   }, []);
 
-  /* ================= EARNING REPORT → ANIMATE ON REPORT CHANGE ================= */
+  /* ================= EARNING REPORT ================= */
   React.useEffect(() => {
     setAnimateBars(false);
 
@@ -228,7 +229,6 @@ export default function Dashboard() {
     </div>
   );
 }
-
 /* ================= STAT CARD ================= */
 function StatCard({
   icon,
@@ -239,9 +239,12 @@ function StatCard({
   value: string;
   label: string;
 }) {
+  const navigate = useNavigate(); 
+
   return (
     <div
-      className="bg-white flex flex-col justify-between shadow-sm relative"
+      onClick={() => navigate("/report")} 
+      className="bg-white flex flex-col justify-between shadow-sm relative cursor-pointer"
       style={{
         width: 260,
         height: 178,
@@ -249,7 +252,7 @@ function StatCard({
         padding: 24,
       }}
     >
-      <span className="absolute top-4 right-4 text-gray-400 text-lg cursor-pointer">
+      <span className="absolute top-4 right-4 text-gray-400 text-lg">
         →
       </span>
 
@@ -261,3 +264,4 @@ function StatCard({
     </div>
   );
 }
+

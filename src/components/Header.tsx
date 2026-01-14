@@ -27,7 +27,7 @@ const Header: React.FC = () => {
     { icon: Shield, label: "Turf List", path: "/turflist" },
     { icon: User, label: "Vendor List", path: "/vendorlist" },
     { icon: Users, label: "User List", path: "/userlist" },
-    { icon: CreditCard, label: "Payments" },
+    { icon: CreditCard, label: "Payments", path: "/payment" },
     { icon: BarChart2, label: "Report", path: "/report" },
     { icon: Settings, label: "Settings" },
   ];
