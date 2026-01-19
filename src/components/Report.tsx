@@ -151,25 +151,38 @@ export default function Report() {
             </div>
           </div>
 
-          {/* ================= TOP TURFS ================= */}
+          {/* ================= TOP TURFS (UPDATED STYLE) ================= */}
           <h3 className="font-semibold mb-4 capitalize">
             Top {activeTab} Turfs
           </h3>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-6">
             {topTurfs.map((turf, i) => (
               <div
                 key={i}
-                className="border rounded-xl p-4 flex items-center gap-4"
+                className="flex items-center justify-between
+                           bg-white border border-gray-300
+                           rounded-2xl px-4 py-2
+                           hover:border-gray-300 transition"
               >
-                <div className="w-10 h-10 bg-gray-100 rounded-full" />
-                <div>
-                  <p className="font-semibold">{turf.name}</p>
-                  <p className="text-xs text-gray-400">{turf.since}</p>
+                {/* LEFT */}
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full bg-gray-100" />
+
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      {turf.name}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {turf.since}
+                    </p>
+                  </div>
                 </div>
-                <span className="ml-auto text-xs text-gray-400">
+
+                {/* RIGHT */}
+                <p className="text-sm text-gray-500">
                   {turf.location}
-                </span>
+                </p>
               </div>
             ))}
           </div>

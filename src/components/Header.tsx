@@ -29,7 +29,7 @@ const Header: React.FC = () => {
     { icon: Users, label: "User List", path: "/userlist" },
     { icon: CreditCard, label: "Payments", path: "/payment" },
     { icon: BarChart2, label: "Report", path: "/report" },
-    { icon: Settings, label: "Settings" },
+    { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
   /* ================= HANDLERS ================= */

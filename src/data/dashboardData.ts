@@ -677,3 +677,38 @@ export const payment = [
     vendorMobile: "9123456780",
   },
 ];
+
+// ================= SETTINGS DATA =================
+
+export const pendingTurfs = [
+  {
+    id: 1,
+    name: "Turf 1",
+    since: "Since 12 Mar, 2024",
+    date: "12 Mar, 2024",
+    location: "Erode, Thindal",
+    ownerName: "John",
+    mobile: "+91 9987656564",
+    mapLink: "@gmap",
+    email: "johndoe_1234@gmail.com",
+    address:
+      "23B, N.S Road, Security House, 1st Floor,\nSuite Number-109, Kolkata-700 001,\nWest Bengal, India",
+    photos: ["/img1.jpg", "/img2.jpg", "/img3.jpg"],
+    status: "pending",
+  },
+  {
+    id: 2,
+    name: "Turf 2",
+    since: "Since 15 Mar, 2024",
+    date: "15 Mar, 2024",
+    location: "Erode, Thindal",
+    ownerName: "Alex",
+    mobile: "+91 9876543210",
+    mapLink: "@gmap",
+    email: "alex@gmail.com",
+    address:
+      "45A, Anna Nagar,\nChennai-600 040,\nTamil Nadu, India",
+    photos: ["/img1.jpg", "/img2.jpg", "/img3.jpg"],
+    status: "pending",
+  },
+];

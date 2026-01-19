@@ -7,6 +7,7 @@ import VendorList from "./components/VendorList";
 import UserList from "./components/UserList";
 import Report from "./components/Report";
 import Payment from "./components/Payment"; 
+import Settings from "./components/Settings";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/userlist" element={<UserList />} />
           <Route path="/report" element={<Report />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
       </Route>
 
