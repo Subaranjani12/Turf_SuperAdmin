@@ -1,19 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Search, SlidersHorizontal, RefreshCcw, Wallet } from "lucide-react";
 import { payment } from "../data/dashboardData";
+
+type FilterStatus = "all" | "complete" | "pending" | "cancelled";
 
 export default function Payment() {
   const [selectedPayment, setSelectedPayment] = useState(payment[0]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setShowFilterDropdown(false);
+      }
+    };
+
+    if (showFilterDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showFilterDropdown]);
 
   const filteredPayments = payment.filter((item) => {
     const searchLower = searchQuery.toLowerCase();
-    return (
+    const matchesSearch =
       item.user.toLowerCase().includes(searchLower) ||
       item.turf.toLowerCase().includes(searchLower) ||
       item.transactionId.toLowerCase().includes(searchLower) ||
-      item.bookingId.toLowerCase().includes(searchLower)
-    );
+      item.bookingId.toLowerCase().includes(searchLower);
+
+    // Map filter status to payment status
+    let matchesFilter = true;
+    if (filterStatus !== "all") {
+      if (filterStatus === "complete") {
+        matchesFilter = item.status === "success";
+      } else if (filterStatus === "pending") {
+        matchesFilter = item.status === "pending";
+      } else if (filterStatus === "cancelled") {
+        matchesFilter = item.status === "failed";
+      }
+    }
+
+    return matchesSearch && matchesFilter;
   });
 
   const getBorderColor = (status: string) => {
@@ -32,7 +66,15 @@ export default function Payment() {
           <h2 className="text-lg font-semibold text-gray-900">
             Payment List
           </h2>
-          <RefreshCcw size={18} className="text-gray-400 cursor-pointer" />
+          <RefreshCcw 
+            size={18} 
+            className="text-gray-400 cursor-pointer hover:text-gray-600 transition" 
+            onClick={() => {
+              setSearchQuery("");
+              setFilterStatus("all");
+              setShowFilterDropdown(false);
+            }}
+          />
         </div>
 
         {/* Search + Filter */}
@@ -47,10 +89,69 @@ export default function Payment() {
             />
           </div>
 
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-500">
-            Filter By
-            <SlidersHorizontal size={16} />
-          </button>
+          <div className="relative" ref={filterRef}>
+            <button
+              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-500 hover:bg-gray-50"
+            >
+              {filterStatus === "all" && "Filter By"}
+              {filterStatus === "complete" && "Complete"}
+              {filterStatus === "pending" && "Pending"}
+              {filterStatus === "cancelled" && "Cancelled"}
+              <SlidersHorizontal size={16} />
+            </button>
+
+            {showFilterDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                <div className="py-1">
+                  <button
+                    onClick={() => {
+                      setFilterStatus("all");
+                      setShowFilterDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                      filterStatus === "all" ? "bg-gray-100 font-semibold" : ""
+                    }`}
+                  >
+                    All Payments
+                  </button>
+                  <button
+                    onClick={() => {
+                      setFilterStatus("complete");
+                      setShowFilterDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                      filterStatus === "complete" ? "bg-gray-100 font-semibold" : ""
+                    }`}
+                  >
+                    Complete
+                  </button>
+                  <button
+                    onClick={() => {
+                      setFilterStatus("pending");
+                      setShowFilterDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                      filterStatus === "pending" ? "bg-gray-100 font-semibold" : ""
+                    }`}
+                  >
+                    Pending
+                  </button>
+                  <button
+                    onClick={() => {
+                      setFilterStatus("cancelled");
+                      setShowFilterDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                      filterStatus === "cancelled" ? "bg-gray-100 font-semibold" : ""
+                    }`}
+                  >
+                    Cancelled
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Payment List */}

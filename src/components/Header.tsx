@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Bell,
   Search,
@@ -21,6 +21,23 @@ const Header: React.FC = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
 
   const menuItems = [
     { icon: LayoutGrid, label: "Dashboard", path: "/dashboard" },
@@ -82,7 +99,7 @@ const Header: React.FC = () => {
           <FileText className="h-5 w-5 text-gray-600 cursor-pointer" />
           <Bell className="h-5 w-5 text-gray-600 cursor-pointer" />
 
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <div
               className="flex items-center gap-1 cursor-pointer select-none"
               onClick={() => setShowDropdown(!showDropdown)}

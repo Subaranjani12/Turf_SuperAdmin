@@ -18,9 +18,12 @@ import {
 } from "../data/dashboardData";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   const [reportType, setReportType] = React.useState("Monthly");
   const [animateBars, setAnimateBars] = React.useState(false);
   const [animatePayment, setAnimatePayment] = React.useState(false);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   let earningReportData = earningReportMonthly;
   if (reportType === "Weekly") earningReportData = earningReportWeekly;
@@ -31,14 +34,22 @@ export default function Dashboard() {
     setAnimatePayment(true);
   }, []);
 
+  /* ================= REFRESH PAYMENT LIST ================= */
+  const handleRefreshPayment = () => {
+    setIsRefreshing(true);
+    
+    // Simulate refreshing payment list data
+    setTimeout(() => {
+      setIsRefreshing(false);
+      // Here you could fetch new payment data from an API
+      console.log('Payment list refreshed');
+    }, 1000);
+  };
+
   /* ================= EARNING REPORT ================= */
   React.useEffect(() => {
     setAnimateBars(false);
-
-    const timer = setTimeout(() => {
-      setAnimateBars(true);
-    }, 100);
-
+    const timer = setTimeout(() => setAnimateBars(true), 100);
     return () => clearTimeout(timer);
   }, [reportType]);
 
@@ -82,7 +93,11 @@ export default function Dashboard() {
             <p className="font-semibold">45%</p>
           </div>
 
-          <button className="bg-white text-black rounded-xl py-2 font-semibold">
+          {/* ✅ VIEW ALL NAVIGATION */}
+          <button
+            onClick={() => navigate("/payment")}
+            className="bg-white text-black rounded-xl py-2 font-semibold"
+          >
             View All
           </button>
         </div>
@@ -123,22 +138,19 @@ export default function Dashboard() {
           </div>
 
           <div className="relative flex h-[260px]">
-            {/* Y AXIS */}
             <div className="flex flex-col justify-between text-xs text-gray-500 pr-6 h-[235px]">
               {[235, 190, 120, 60, 0].map((v) => (
                 <span key={v}>{v}</span>
               ))}
             </div>
 
-            {/* BARS */}
             <div className="flex-1 flex items-end justify-between gap-3">
               {earningReportData.map((item, index) => {
                 const maxValue = Math.max(
                   ...earningReportData.map((d) => d.value),
                   235
                 );
-                const maxBarHeight = 235;
-                const barHeight = (item.value / maxValue) * maxBarHeight;
+                const barHeight = (item.value / maxValue) * 235;
 
                 return (
                   <div key={index} className="flex flex-col items-center flex-1">
@@ -162,9 +174,15 @@ export default function Dashboard() {
         <div className="col-span-4 bg-[#F1F4F8] rounded-2xl p-1">
           <div className="flex justify-between items-center mb-6">
             <h3 className="font-semibold text-lg">Payment List</h3>
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-              <RefreshCw size={16} />
-            </div>
+            <button 
+              onClick={handleRefreshPayment}
+              className="hover:opacity-70 transition-opacity -ml-8"
+            >
+              <RefreshCw 
+                size={18} 
+                className={`text-gray-600 ${isRefreshing ? 'animate-spin' : ''}`}
+              />
+            </button>
           </div>
 
           <div className="space-y-5">
@@ -175,18 +193,14 @@ export default function Dashboard() {
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                    <CreditCard size={18} className="text-gray-700" />
+                    <CreditCard size={18} />
                   </div>
-
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">
-                      {pay.name}
-                    </p>
+                    <p className="text-sm font-semibold">{pay.name}</p>
                     <p className="text-xs text-gray-500">{pay.date}</p>
                   </div>
                 </div>
-
-                <p className="font-bold text-gray-900">{pay.amount}</p>
+                <p className="font-bold">{pay.amount}</p>
               </div>
             ))}
           </div>
@@ -197,7 +211,12 @@ export default function Dashboard() {
       <div className="col-span-8 bg-white rounded-2xl p-6 -mt-80">
         <div className="flex justify-between items-center mb-8">
           <h3 className="font-semibold text-lg">Pending Approvals</h3>
-          <span className="text-gray-400 text-xl cursor-pointer">→</span>
+          <span 
+            onClick={() => navigate("/settings")}
+            className="text-gray-400 text-xl cursor-pointer hover:text-gray-600"
+          >
+            →
+          </span>
         </div>
 
         <div className="grid grid-cols-6 text-sm text-gray-500 mb-7">
@@ -229,6 +248,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
 /* ================= STAT CARD ================= */
 function StatCard({
   icon,
@@ -239,14 +259,12 @@ function StatCard({
   value: string;
   label: string;
 }) {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   return (
     <div
       onClick={() =>
-        navigate("/report", {
-          state: { activeTab: "payment" }, 
-        })
+        navigate("/report", { state: { activeTab: "payment" } })
       }
       className="bg-white flex flex-col justify-between shadow-sm relative cursor-pointer"
       style={{
@@ -256,10 +274,7 @@ function StatCard({
         padding: 24,
       }}
     >
-      <span className="absolute top-4 right-4 text-gray-400 text-lg">
-        →
-      </span>
-
+      <span className="absolute top-4 right-4 text-gray-400 text-lg">→</span>
       <div className="bg-gray-100 p-3 rounded-full w-fit">{icon}</div>
       <div>
         <h2 className="text-2xl font-bold">{value}</h2>
@@ -268,4 +283,3 @@ function StatCard({
     </div>
   );
 }
-

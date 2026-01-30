@@ -250,6 +250,8 @@ export type Vendor = {
   name: string;
   since: string;
   phone: string;
+  revenue: number;
+  activeUsers: number;
 };
 
 export const vendorList: Vendor[] = [
@@ -258,36 +260,48 @@ export const vendorList: Vendor[] = [
     name: "Vendor 1",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
+    revenue: 145000,
+    activeUsers: 374,
   },
   {
     id: 2,
     name: "Vendor 2",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
+    revenue: 98500,
+    activeUsers: 256,
   },
   {
     id: 3,
     name: "Vendor 3",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
+    revenue: 123400,
+    activeUsers: 412,
   },
   {
     id: 4,
     name: "Vendor 4",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
+    revenue: 87600,
+    activeUsers: 189,
   },
   {
     id: 5,
     name: "Vendor 5",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
+    revenue: 156700,
+    activeUsers: 523,
   },
   {
     id: 6,
     name: "Vendor 6",
     since: "Since 12 Mar, 2024",
     phone: "+91 9845762545",
+    revenue: 72300,
+    activeUsers: 145,
   },
   {
     id: 7,
